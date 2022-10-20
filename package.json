@@ -10,6 +10,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@fontsource/poppins": "^4.5.10",
     "pinia": "^2.0.23",
     "vue": "^3.2.41"
   },

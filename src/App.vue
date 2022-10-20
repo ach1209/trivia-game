@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import "@fontsource/poppins"
 import MainHeader from '@/components/MainHeader.vue'
 </script>
 
