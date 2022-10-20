@@ -10,8 +10,6 @@ const props = defineProps<{
 }>()
 
 const choices = computed<string[]>(() => {
-  console.log(props.incorrectAnswers)
-  
   return [...props.incorrectAnswers, props.correctAnswer].sort()
 })
 </script>

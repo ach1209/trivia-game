@@ -1,36 +1,33 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-interface Response {
-  response_code: number
-  results: {
-    category: string
-    correct_answer: string
-    difficulty: string
-    incorrect_answers: string[]
-    question: string
-    type: string
-  }[]
+interface QuestionDetails {
+  category: string
+  correct_answer: string
+  difficulty: string
+  incorrect_answers: string[]
+  question: string
+  type: string
 }
 
 export const useQuestionStore = defineStore('questionList', () => {
-  const questionList = ref<Response | undefined>()
+  const questionList = ref<QuestionDetails[]>([])
   const hasQuizStarted = ref(false)
 
-  async function fetchQuestions() {
+  async function loadGame() {
     const response = await fetch('https://opentdb.com/api.php?amount=10&type=multiple')
     const results = await response.json()
     hasQuizStarted.value = true
 
-    return questionList.value = results
+    questionList.value = results.results
   }
 
   const currentQuestionIndex = ref(0)
   function getNextQuestion() {
-    if (questionList.value != undefined && currentQuestionIndex.value < questionList.value.results.length) {
+    if (currentQuestionIndex.value < questionList.value.length) {
       currentQuestionIndex.value++
     }
   }
 
-  return { questionList, hasQuizStarted, fetchQuestions, currentQuestionIndex, getNextQuestion }
+  return { questionList, hasQuizStarted, loadGame, currentQuestionIndex, getNextQuestion }
 })
