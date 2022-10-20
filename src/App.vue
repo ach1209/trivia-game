@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import "@fontsource/poppins"
 import MainHeader from '@/components/MainHeader.vue'
+import AppButton from '@/components/AppButton.vue'
 
 import { useQuestionStore } from '@/stores/questionsList'
 
@@ -9,7 +10,7 @@ const qStore = useQuestionStore()
 
 <template>
   <MainHeader />
-  <button @click.prevent="qStore.fetchQuestions">Fetch Questions</button>
+  <AppButton @click.prevent="qStore.fetchQuestions" btnText="Start Game" />
 </template>
 
 <style scoped>
