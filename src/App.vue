@@ -10,7 +10,7 @@ const qStore = useQuestionStore()
 
 <template>
   <MainHeader />
-  <AppButton @click.prevent="qStore.fetchQuestions" btnText="Start Game" />
+  <AppButton @click.prevent="qStore.fetchQuestions" btn-text="Start Game" />
 </template>
 
 <style scoped>
