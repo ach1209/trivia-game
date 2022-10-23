@@ -1,7 +1,7 @@
 <template>
   <header class="main-header">
     <h1 class="main-header-title">Trivia Game</h1>
-    <p class="main-header-info">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+    <p class="main-header-info">Try to answer all 10 trivia questions correctly!</p>
   </header>
 </template>
 
@@ -17,12 +17,12 @@
 }
 
 .main-header-title {
-  color: var(--light);
+  color: var(--white);
   font-size: 4rem;
   font-weight: 700;
 }
 
 .main-header-info {
-  color: var(--light);
+  color: var(--white);
 }
 </style>

@@ -12,7 +12,7 @@ const qStore = useQuestionStore()
 
 <template>
   <MainHeader />
-  <LayoutShell class="mg-top-4">
+  <LayoutShell class="mg-top-4 pd-lr-2">
     <div v-if="!qStore.hasQuizStarted" class="flex-centered-element">
       <AppButton @click.prevent="qStore.loadGame" btn-text="Start Game" />
     </div>
@@ -24,7 +24,8 @@ const qStore = useQuestionStore()
       :correct-answer="qStore.questionList[qStore.currentQuestionIndex].correct_answer"
       :incorrect-answers="qStore.questionList[qStore.currentQuestionIndex].incorrect_answers"
     >
-      <AppButton @click.prevent="qStore.getNextQuestion" btn-text="Next" />
+      <!-- <AppButton btn-text="Submit" size="sm" /> -->
+      <AppButton @click.prevent="qStore.getNextQuestion" btn-text="Next" size="sm" />
     </QuestionContent>
   </LayoutShell>
 </template>
