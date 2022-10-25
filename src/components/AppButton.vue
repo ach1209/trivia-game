@@ -38,6 +38,12 @@ button {
   padding: 1.25rem 1.5rem;
 }
 
+.btn-disabled {
+  color: var(--dark);
+  background-color: var(--light);
+  box-shadow: none;
+}
+
 @media screen and (min-width: 990px) {
   .btn {
     transition: box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);

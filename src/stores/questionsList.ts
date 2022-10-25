@@ -23,11 +23,6 @@ export const useQuestionStore = defineStore('questionList', () => {
   }
 
   const currentQuestionIndex = ref(0)
-  function getNextQuestion() {
-    if (currentQuestionIndex.value < questionList.value.length) {
-      currentQuestionIndex.value++
-    }
-  }
 
-  return { questionList, hasQuizStarted, loadGame, currentQuestionIndex, getNextQuestion }
+  return { questionList, hasQuizStarted, loadGame, currentQuestionIndex }
 })

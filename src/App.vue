@@ -24,8 +24,6 @@ const qStore = useQuestionStore()
       :correct-answer="qStore.questionList[qStore.currentQuestionIndex].correct_answer"
       :incorrect-answers="qStore.questionList[qStore.currentQuestionIndex].incorrect_answers"
     >
-      <!-- <AppButton btn-text="Submit" size="sm" /> -->
-      <AppButton @click.prevent="qStore.getNextQuestion" btn-text="Next" size="sm" />
     </QuestionContent>
   </LayoutShell>
 </template>
