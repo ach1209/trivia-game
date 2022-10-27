@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { useStatusStore } from '@/stores/status'
 
+import '@fontsource/inter'
 import AppButton from '@/components/AppButton.vue'
 
 const props = defineProps<{
@@ -31,8 +32,8 @@ const status = useStatusStore()
 <template>
   <div class="question-content">
     <header class="content-header">
-      <span>Question {{ props.currentQuestionIndex + 1 }} of {{ props.totalCount }}</span>
-      <span>Remaining Attempts: {{ status.remainingAttempts }}</span>
+      <span class="question-count">Question {{ props.currentQuestionIndex + 1 }} of {{ props.totalCount }}</span>
+      <span class="counter">Remaining Attempts: {{ status.remainingAttempts }}</span>
     </header>
     
     <form @submit.prevent="status.checkAnswer(selectedAnswer)">
@@ -40,7 +41,7 @@ const status = useStatusStore()
       <div v-for="choice in choices" :key="choice" class="answer-wrapper">
         <input type="radio" name="choice" id="answer-choice" :value="choice" v-model="selectedAnswer" :disabled="status.disableInput">
         <label for="answer-choice" v-html="choice" class="mg-left-2"></label>
-        <span v-if="choice === props.correctAnswer">{{ status.answerStatus }}</span>
+        <span class="answer-status" v-if="choice === props.correctAnswer">{{ status.answerStatus }}</span>
       </div>
       <footer class="content-footer">
         <AppButton btn-text="Submit" size="sm" v-if="status.enableSubmit" :class="{ 'btn-disabled': isSubmitDisabled }" :disabled="isSubmitDisabled" />
@@ -56,6 +57,21 @@ const status = useStatusStore()
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
+  font-family: var(--secondaryFont);
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.question-count {
+  font-size: 1.7rem;
+  font-weight: 600;
+}
+
+.counter {
+  font-size: 1.7rem;
 }
 
 .content-footer {
@@ -73,6 +89,10 @@ const status = useStatusStore()
   padding: 0 2rem;
   display: flex;
   align-items: center;
+  cursor: pointer;
+  background-color: var(--white);
+  border-radius: 5px;
+  transition: background-color 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53);
 }
 
 .answer-wrapper:not(:last-child) {
@@ -81,5 +101,16 @@ const status = useStatusStore()
 
 .answer-wrapper:last-of-type {
   margin-bottom: 2rem;
+}
+
+@media screen and (min-width: 990px) {
+  .answer-wrapper:hover {
+    background-color: var(--light);
+  }
+}
+
+.answer-status {
+  color: green;
+  margin-left: auto;
 }
 </style>

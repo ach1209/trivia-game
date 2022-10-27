@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import "@fontsource/poppins"
+import '@fontsource/poppins'
 import MainHeader from '@/components/MainHeader.vue'
 import AppButton from '@/components/AppButton.vue'
 import LayoutShell from '@/components/LayoutShell.vue'

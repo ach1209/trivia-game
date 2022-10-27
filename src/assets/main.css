@@ -6,6 +6,8 @@
   --dark-rgb: 57, 62, 70;
   --light: #EEEEEE;
   --white: #ffffff;
+  --primaryFont: 'Poppins', sans-serif;
+  --secondaryFont: 'Inter', sans-serif;
 }
 
 * {
@@ -20,7 +22,7 @@ html {
 
 body {
   color: var(--dark);
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--primaryFont);
   font-size: 1.6rem;
 }
 
