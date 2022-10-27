@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 
 <style scoped>
 button {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--secondaryFont);
   font-size: 1.65rem;
   letter-spacing: 0.5px;
   border: none;
