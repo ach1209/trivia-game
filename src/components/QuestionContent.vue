@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useStatusStore } from '@/stores/status'
+import { useQuestionStore } from '@/stores/questionsList'
+import { useButtonStatus } from '../composables/useButtonStatus'
 
 import '@fontsource/inter'
 import AppButton from '@/components/AppButton.vue'
@@ -26,26 +27,59 @@ const isSubmitDisabled = computed<boolean>(() => {
   return true
 })
 
-const status = useStatusStore()
+const { enableSubmit, enableNext, switchButtonStatus } = useButtonStatus()
+
+const remainingAttempts = ref(3)
+
+function checkAnswer(chosenAnswer: string) {
+  if (props.correctAnswer === chosenAnswer) {
+    revealCorrectAnswer()
+  } else {
+    revealCorrectAnswer()
+    remainingAttempts.value--
+  }
+}
+
+const answerStatus = ref('')
+const disableInput = ref(false)
+const qStore = useQuestionStore()
+
+function getNextQuestion() {
+  if (qStore.currentQuestionIndex < props.totalCount && remainingAttempts.value !== 0) {
+    qStore.currentQuestionIndex++
+
+    // reset back to default state
+    answerStatus.value = ''
+    disableInput.value = false
+    selectedAnswer.value = ''
+    switchButtonStatus()
+  }
+}
+
+function revealCorrectAnswer() {
+  answerStatus.value = 'This is the correct answer'
+  disableInput.value = true
+  switchButtonStatus()
+}
 </script>
 
 <template>
   <div class="question-content">
     <header class="content-header">
       <span class="question-count">Question {{ props.currentQuestionIndex + 1 }} of {{ props.totalCount }}</span>
-      <span class="counter">Remaining Attempts: {{ status.remainingAttempts }}</span>
+      <span class="counter">Remaining Attempts: {{ remainingAttempts }}</span>
     </header>
     
-    <form @submit.prevent="status.checkAnswer(selectedAnswer)">
+    <form @submit.prevent="checkAnswer(selectedAnswer)">
       <h2 v-html="props.question" class="question mg-bottom-2"></h2>
       <div v-for="choice in choices" :key="choice" class="answer-wrapper">
-        <input type="radio" name="choice" id="answer-choice" :value="choice" v-model="selectedAnswer" :disabled="status.disableInput">
+        <input type="radio" name="choice" id="answer-choice" :value="choice" v-model="selectedAnswer" :disabled="disableInput">
         <label for="answer-choice" v-html="choice" class="mg-left-2"></label>
-        <span class="answer-status" v-if="choice === props.correctAnswer">{{ status.answerStatus }}</span>
+        <span class="answer-status" v-if="choice === props.correctAnswer">{{ answerStatus }}</span>
       </div>
       <footer class="content-footer">
-        <AppButton btn-text="Submit" size="sm" v-if="status.enableSubmit" :class="{ 'btn-disabled': isSubmitDisabled }" :disabled="isSubmitDisabled" />
-        <AppButton @click.prevent="status.getNextQuestion" btn-text="Next" size="sm" v-if="status.enableNext" />
+        <AppButton btn-text="Submit" size="sm" v-if="enableSubmit" :class="{ 'btn-disabled': isSubmitDisabled }" :disabled="isSubmitDisabled" />
+        <AppButton @click.prevent="getNextQuestion" btn-text="Next" size="sm" v-if="enableNext" />
       </footer>
     </form>
   </div>
