@@ -12,6 +12,13 @@ const modalMsg = computed(() => {
   }
   return 'Congratulations! You\'ve answered all the questions!'
 })
+
+const countMsg = computed<string>(() => {
+  if (props.correctAnswersCount === 1) {
+    return `You answered ${props.correctAnswersCount} question correctly.`
+  }
+  return `You answered ${props.correctAnswersCount} questions correctly.`
+})
 </script>
 
 <template>
@@ -22,7 +29,7 @@ const modalMsg = computed(() => {
         <div class="container">
           <div class="modal-content">
             <h2 class="modal-message">{{ modalMsg }}</h2>
-            <p>You answered {{ props.correctAnswersCount }} questions correctly.</p>
+            <p>{{ countMsg }}</p>
             <slot />            
           </div>
         </div>
@@ -63,7 +70,10 @@ const modalMsg = computed(() => {
 
 .modal-content {
   width: 100%;
-  line-height: 7rem;
   text-align: center;
+}
+
+.modal-content p {
+  line-height: 7rem;
 }
 </style>

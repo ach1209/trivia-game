@@ -30,20 +30,23 @@ const isSubmitDisabled = computed<boolean>(() => {
 })
 
 const remainingAttempts = ref(3)
+const remainingQuestions = ref(10)
 const { count, inc } = useCounter()
 
 function checkAnswer(chosenAnswer: string) {
   if (props.correctAnswer === chosenAnswer) {
     revealCorrectAnswer()
     inc()
+    remainingQuestions.value--
   } else {
     revealCorrectAnswer()
     remainingAttempts.value--
+    remainingQuestions.value--
   }
 }
 
-watch(remainingAttempts, () => {
-  if (remainingAttempts.value === 0) {
+watch([remainingAttempts, remainingQuestions], () => {
+  if (remainingAttempts.value === 0 || remainingQuestions.value === 0) {
     showModal.value = !showModal.value
   }
 })
@@ -78,6 +81,7 @@ function reset() {
   disableInput.value = false
   selectedAnswer.value = ''
   remainingAttempts.value = 3
+  remainingQuestions.value = 10
   switchButtonStatus()
   qStore.currentQuestionIndex = 0
   qStore.hasQuizStarted = false
