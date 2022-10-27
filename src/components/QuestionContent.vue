@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { useCounter } from '@vueuse/core'
 import { useQuestionStore } from '@/stores/questionsList'
 import { useButtonStatus } from '../composables/useButtonStatus'
 
 import '@fontsource/inter'
 import AppButton from '@/components/AppButton.vue'
+import ModalMessage from '@/components/ModalMessage.vue'
 
 const props = defineProps<{
   currentQuestionIndex: number
@@ -27,19 +29,26 @@ const isSubmitDisabled = computed<boolean>(() => {
   return true
 })
 
-const { enableSubmit, enableNext, switchButtonStatus } = useButtonStatus()
-
 const remainingAttempts = ref(3)
+const { count, inc } = useCounter()
 
 function checkAnswer(chosenAnswer: string) {
   if (props.correctAnswer === chosenAnswer) {
     revealCorrectAnswer()
+    inc()
   } else {
     revealCorrectAnswer()
     remainingAttempts.value--
   }
 }
 
+watch(remainingAttempts, () => {
+  if (remainingAttempts.value === 0) {
+    showModal.value = !showModal.value
+  }
+})
+
+const { enableSubmit, enableNext, switchButtonStatus } = useButtonStatus()
 const answerStatus = ref('')
 const disableInput = ref(false)
 const qStore = useQuestionStore()
@@ -60,6 +69,19 @@ function revealCorrectAnswer() {
   answerStatus.value = 'This is the correct answer'
   disableInput.value = true
   switchButtonStatus()
+}
+
+const showModal = ref(false)
+
+function reset() {
+  answerStatus.value = ''
+  disableInput.value = false
+  selectedAnswer.value = ''
+  remainingAttempts.value = 3
+  switchButtonStatus()
+  qStore.currentQuestionIndex = 0
+  qStore.hasQuizStarted = false
+  showModal.value = !showModal.value
 }
 </script>
 
@@ -83,6 +105,10 @@ function revealCorrectAnswer() {
       </footer>
     </form>
   </div>
+
+  <ModalMessage :remaining-attempts="remainingAttempts" :correct-answers-count="count" v-if="showModal">
+    <AppButton btnText="Play Again" @click.prevent="reset" />
+  </ModalMessage>
 </template>
 
 <style scoped>
