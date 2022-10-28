@@ -20,72 +20,70 @@ const choices = computed<string[]>(() => {
   return [...props.incorrectAnswers, props.correctAnswer].sort()
 })
 
-const selectedAnswer = ref('')
+const state = ref({
+  selectedAnswer: '',
+  remainingAttempts: 3,
+  remainingQuestions: 10,
+  answerStatus: '',
+  disableInput: false,
+  showModal: false
+})
+
+const initialState = [{...state}]
 
 const isSubmitDisabled = computed<boolean>(() => {
-  if (selectedAnswer.value !== '') {
+  if (state.value.selectedAnswer !== '') {
     return false
   }
   return true
 })
 
-const remainingAttempts = ref(3)
-const remainingQuestions = ref(10)
 const { count, inc } = useCounter()
 
 function checkAnswer(chosenAnswer: string) {
   if (props.correctAnswer === chosenAnswer) {
     revealCorrectAnswer()
     inc()
-    remainingQuestions.value--
+    state.value.remainingQuestions--
   } else {
     revealCorrectAnswer()
-    remainingAttempts.value--
-    remainingQuestions.value--
+    state.value.remainingAttempts--
+    state.value.remainingQuestions--
   }
 }
 
-watch([remainingAttempts, remainingQuestions], () => {
-  if (remainingAttempts.value === 0 || remainingQuestions.value === 0) {
-    showModal.value = !showModal.value
+watch([() => state.value.remainingAttempts, () => state.value.remainingQuestions], () => {
+  if (state.value.remainingAttempts === 0 || state.value.remainingQuestions === 0) {
+    state.value.showModal = !state.value.showModal
   }
-})
+}, { deep: true })
 
 const { enableSubmit, enableNext, switchButtonStatus } = useButtonStatus()
-const answerStatus = ref('')
-const disableInput = ref(false)
 const qStore = useQuestionStore()
 
 function getNextQuestion() {
-  if (qStore.currentQuestionIndex < props.totalCount && remainingAttempts.value !== 0) {
+  if (qStore.currentQuestionIndex < props.totalCount && state.value.remainingAttempts !== 0) {
     qStore.currentQuestionIndex++
 
     // reset back to default state
-    answerStatus.value = ''
-    disableInput.value = false
-    selectedAnswer.value = ''
+    state.value.answerStatus = ''
+    state.value.disableInput = false
+    state.value.selectedAnswer = ''
     switchButtonStatus()
   }
 }
 
 function revealCorrectAnswer() {
-  answerStatus.value = 'This is the correct answer'
-  disableInput.value = true
+  state.value.answerStatus = 'This is the correct answer'
+  state.value.disableInput = true
   switchButtonStatus()
 }
 
-const showModal = ref(false)
-
 function reset() {
-  answerStatus.value = ''
-  disableInput.value = false
-  selectedAnswer.value = ''
-  remainingAttempts.value = 3
-  remainingQuestions.value = 10
+  Object.assign(state, initialState)
   switchButtonStatus()
   qStore.currentQuestionIndex = 0
   qStore.hasQuizStarted = false
-  showModal.value = !showModal.value
 }
 </script>
 
@@ -93,15 +91,15 @@ function reset() {
   <div class="question-content">
     <header class="content-header">
       <span class="question-count">Question {{ props.currentQuestionIndex + 1 }} of {{ props.totalCount }}</span>
-      <span class="counter">Remaining Attempts: {{ remainingAttempts }}</span>
+      <span class="counter">Remaining Attempts: {{ state.remainingAttempts }}</span>
     </header>
     
-    <form @submit.prevent="checkAnswer(selectedAnswer)">
+    <form @submit.prevent="checkAnswer(state.selectedAnswer)">
       <h2 v-html="props.question" class="question mg-bottom-2"></h2>
       <div v-for="choice in choices" :key="choice" class="answer-wrapper">
-        <input type="radio" name="choice" id="answer-choice" :value="choice" v-model="selectedAnswer" :disabled="disableInput">
+        <input type="radio" name="choice" id="answer-choice" :value="choice" v-model="state.selectedAnswer" :disabled="state.disableInput">
         <label for="answer-choice" v-html="choice" class="mg-left-2"></label>
-        <span class="answer-status" v-if="choice === props.correctAnswer">{{ answerStatus }}</span>
+        <span class="answer-status" v-if="choice === props.correctAnswer">{{ state.answerStatus }}</span>
       </div>
       <footer class="content-footer">
         <AppButton btn-text="Submit" size="sm" v-if="enableSubmit" :class="{ 'btn-disabled': isSubmitDisabled }" :disabled="isSubmitDisabled" />
@@ -110,7 +108,7 @@ function reset() {
     </form>
   </div>
 
-  <ModalMessage :remaining-attempts="remainingAttempts" :correct-answers-count="count" v-if="showModal">
+  <ModalMessage :remaining-attempts="state.remainingAttempts" :correct-answers-count="count" v-if="state.showModal">
     <AppButton btnText="Play Again" @click.prevent="reset" />
   </ModalMessage>
 </template>
