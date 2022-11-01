@@ -1,6 +1,6 @@
-# trivia-game
+# Trivia Game
 
-This template should help get you started developing with Vue 3 in Vite.
+Technologies used: Vue 3, TypeScript, Pinia, Open Trivia DB API
 
 ## Recommended IDE Setup
 
