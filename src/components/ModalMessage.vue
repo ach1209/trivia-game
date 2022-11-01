@@ -68,6 +68,12 @@ const countMsg = computed<string>(() => {
   border-radius: 5px;
 }
 
+@media screen and (max-width: 867px) {
+  .modal-body {
+    width: 90%;
+  }
+}
+
 .modal-content {
   width: 100%;
   text-align: center;
@@ -75,5 +81,11 @@ const countMsg = computed<string>(() => {
 
 .modal-content p {
   line-height: 7rem;
+}
+
+@media screen and (max-width: 370px) {
+  .modal-content p {
+    line-height: 3rem;
+  }
 }
 </style>
