@@ -8,12 +8,18 @@
 <style scoped>
 .main-header {
   height: 15rem;
-  line-height: 4.5rem;
   background-color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+@media screen and (max-width: 480px) {
+  .main-header {
+    padding: 0 3rem;
+    text-align: center;
+  }
 }
 
 .main-header-title {

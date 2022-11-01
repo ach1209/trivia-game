@@ -4,6 +4,7 @@ import MainHeader from '@/components/MainHeader.vue'
 import AppButton from '@/components/AppButton.vue'
 import LayoutShell from '@/components/LayoutShell.vue'
 import QuestionContent from '@/components/QuestionContent.vue'
+import MainFooter from '@/components/MainFooter.vue'
 
 import { useQuestionStore } from '@/stores/questionsList'
 
@@ -12,7 +13,7 @@ const qStore = useQuestionStore()
 
 <template>
   <MainHeader />
-  <LayoutShell class="mg-top-4 pd-lr-2">
+  <LayoutShell class="pd-lr-2">
     <div v-if="!qStore.hasQuizStarted" class="flex-centered-element">
       <AppButton @click.prevent="qStore.loadGame" btn-text="Start Game" />
     </div>
@@ -26,4 +27,5 @@ const qStore = useQuestionStore()
     >
     </QuestionContent>
   </LayoutShell>
+  <MainFooter />
 </template>
