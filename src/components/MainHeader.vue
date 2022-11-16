@@ -5,18 +5,13 @@
   </header>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .main-header {
   height: 15rem;
   background-color: var(--primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
+  @include flex(center, center, column);
 
-@media screen and (max-width: 480px) {
-  .main-header {
+  @include device-max(480px) {
     padding: 0 3rem;
     text-align: center;
   }

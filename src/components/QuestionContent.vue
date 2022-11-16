@@ -113,22 +113,17 @@ function reset() {
   </ModalMessage>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .question-content {
   height: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
   font-family: var(--secondaryFont);
+  @include flex(null, space-evenly, column);
 }
 
 .content-header {
-  display: flex;
-  justify-content: space-between;
-}
+  @include flex(null, space-between);
 
-@media screen and (max-width: 430px) {
-  .content-header {
+  @include device-max(430px) {
     flex-direction: column;
   }
 }
@@ -143,8 +138,7 @@ function reset() {
 }
 
 .content-footer {
-  display: flex;
-  justify-content: end;
+  @include flex(null, end);
 }
 
 .question {
@@ -158,10 +152,16 @@ function reset() {
   background-color: var(--white);
   border-radius: 5px;
   transition: background-color 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53);
-}
 
-@media screen and (min-width: 431px) {
-  .answer-wrapper {
+  @include device-min(568px) {
+    @include flex(center);
+  }
+
+  @include device-max(567px) {
+    height: 5rem;
+  }
+
+  @include device-min(431px) {
     padding: 0 2rem;
   }
 }
@@ -176,32 +176,19 @@ function reset() {
 
 .answer-status {
   color: green;
-}
 
-@media screen and (min-width: 990px) {
-  .answer-wrapper:hover {
-    background-color: var(--light);
-  }
-}
-
-@media screen and (min-width: 568px) {
-  .answer-wrapper {
-    display: flex;
-    align-items: center;
-  }
-
-  .answer-status {
+  @include device-min(568px) {
     margin-left: auto;
   }
+
+  @include device-max(567px) {
+    display: block;
+  }
 }
 
-@media screen and (max-width: 567px) {
-  .answer-wrapper {
-    height: 5rem;
-  }
-
-  .answer-status {
-    display: block;
+@include device-min(990px) {
+  .answer-wrapper:hover {
+    background-color: var(--light);
   }
 }
 </style>

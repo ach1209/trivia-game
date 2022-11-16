@@ -13,7 +13,7 @@ const repository = 'https://github.com/ach1209/trivia-game'
   </footer>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .main-footer {
   width: 100%;
   height: 5rem;
@@ -25,9 +25,7 @@ const repository = 'https://github.com/ach1209/trivia-game'
 .main-footer a {
   color: var(--white);
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex(center, center);
   gap: 2rem;
 }
 </style>

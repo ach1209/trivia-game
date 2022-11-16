@@ -1,0 +1,16 @@
+.mg-bottom-2 {
+  margin-bottom: 2rem;
+}
+
+.mg-left-2 {
+  margin-left: 2rem;
+}
+
+.pd-lr-2 {
+  padding: 0 2rem;
+}
+
+.flex-centered-element {
+  height: 100%;
+  @include flex(center, center);
+}

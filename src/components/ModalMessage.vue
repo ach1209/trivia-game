@@ -38,7 +38,7 @@ const countMsg = computed<string>(() => {
   </Teleport>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .modal {
   position: absolute;
   top: 0;
@@ -66,10 +66,8 @@ const countMsg = computed<string>(() => {
   padding: 3rem;
   background: var(--white);
   border-radius: 5px;
-}
 
-@media screen and (max-width: 867px) {
-  .modal-body {
+  @include device-max(867px) {
     width: 90%;
   }
 }
@@ -81,10 +79,8 @@ const countMsg = computed<string>(() => {
 
 .modal-content p {
   line-height: 7rem;
-}
 
-@media screen and (max-width: 370px) {
-  .modal-content p {
+  @include device-max(370px) {
     line-height: 3rem;
   }
 }

@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   <button class="btn" :class="`btn-${props.size}`">{{ props.btnText }}</button>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 button {
   font-family: var(--secondaryFont);
   font-size: 1.65rem;
@@ -28,6 +28,10 @@ button {
 .btn {
   color: var(--white);
   background-color: var(--secondary);
+
+  @include device-min(990px) {
+    transition: box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
 }
 
 .btn-sm {
@@ -44,11 +48,7 @@ button {
   box-shadow: none;
 }
 
-@media screen and (min-width: 990px) {
-  .btn {
-    transition: box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-
+@include device-min(990px) {
   .btn:hover,
   .btn:focus {
     box-shadow: inset 0 0 0 100% var(--dark);
