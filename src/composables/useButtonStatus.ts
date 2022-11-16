@@ -6,7 +6,7 @@ export function useButtonStatus() {
 
   function switchButtonStatus() {
     enableSubmit.value = !enableSubmit.value
-    enableNext.value = !enableSubmit.value
+    enableNext.value = !enableNext.value
   }
 
   return { enableSubmit, enableNext, switchButtonStatus }
